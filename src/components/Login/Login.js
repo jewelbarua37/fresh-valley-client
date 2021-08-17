@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import firebase from "firebase/app";
 import "firebase/auth";
 import firebaseConfig from './firebase.config';
 import { useState } from 'react';
+import { UserContext } from '../../App';
 
 
 
@@ -17,7 +18,7 @@ const Login = () => {
         photo: ''
   });
  
-
+  const [loggedInUser, setLoggedInUser] = useContext(UserContext)
  
   const provider = new firebase.auth.GoogleAuthProvider();
   const handleGoogleAuth = () =>{
@@ -33,6 +34,7 @@ const Login = () => {
         photo: photoURL
       }
       setUserInfo(signedInUser);
+      setLoggedInUser(signedInUser);
      
       console.log(displayName, photoURL, email);
       
@@ -55,7 +57,7 @@ const Login = () => {
           userInfo.isSignedIn && <div>
               <h3> Welcome, {userInfo.name}</h3>
               <p>Your Email: {userInfo.email}</p>
-              <img style={{width: '25%'}} src={userInfo.photo} alt=""></img>
+              
           </div>
         }
         <br/>
